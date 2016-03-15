@@ -1,0 +1,12 @@
+Znck\Tests\Cities\FileLoader
+ [x] it can load
+ [x] it throws if locale does not exist
+ [x] it should throw error invalid resource exception
+ [x] it should throw error invalid resource exception too
+ [x] it loads correct data
+ [x] it can load with slash at end of path
+
+Znck\Tests\Cities\Translator
+ [x] it works
+ [x] it works too
+

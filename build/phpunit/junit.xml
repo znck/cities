@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="Cities Test Suite" tests="8" assertions="11" failures="0" errors="0" time="0.248116">
+    <testsuite name="Znck\Tests\Cities\FileLoaderTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/FileLoaderTest.php" tests="6" assertions="6" failures="0" errors="0" time="0.225136">
+      <testcase name="test_it_can_load" class="Znck\Tests\Cities\FileLoaderTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/FileLoaderTest.php" line="11" assertions="1" time="0.133186"/>
+      <testcase name="test_it_throws_if_locale_does_not_exist" class="Znck\Tests\Cities\FileLoaderTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/FileLoaderTest.php" line="18" assertions="1" time="0.067741"/>
+      <testcase name="test_it_should_throw_error_invalid_resource_exception" class="Znck\Tests\Cities\FileLoaderTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/FileLoaderTest.php" line="27" assertions="1" time="0.011044"/>
+      <testcase name="test_it_should_throw_error_invalid_resource_exception_too" class="Znck\Tests\Cities\FileLoaderTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/FileLoaderTest.php" line="36" assertions="1" time="0.008921"/>
+      <testcase name="test_it_loads_correct_data" class="Znck\Tests\Cities\FileLoaderTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/FileLoaderTest.php" line="45" assertions="1" time="0.002130"/>
+      <testcase name="test_it_can_load_with_slash_at_end_of_path" class="Znck\Tests\Cities\FileLoaderTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/FileLoaderTest.php" line="52" assertions="1" time="0.002114"/>
+    </testsuite>
+    <testsuite name="Znck\Tests\Cities\TranslatorTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/TranslatorTest.php" tests="2" assertions="5" failures="0" errors="0" time="0.022980">
+      <testcase name="test_it_works" class="Znck\Tests\Cities\TranslatorTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/TranslatorTest.php" line="9" assertions="1" time="0.020351"/>
+      <testcase name="test_it_works_too" class="Znck\Tests\Cities\TranslatorTest" file="/Volumes/Znck/Workspace/workbench/packages/znck/cities/tests/TranslatorTest.php" line="16" assertions="4" time="0.002629"/>
+    </testsuite>
+  </testsuite>
+</testsuites>
