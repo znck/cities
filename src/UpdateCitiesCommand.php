@@ -124,31 +124,25 @@ class UpdateCitiesCommand extends Command
         $stateCodes = $cities->pluck('state_id')->unique();
         $stateIds = Collection::make(DB::table($this->states)->whereIn('code', $stateCodes)->pluck('id', 'code'));
 
-        $cities->map(
-            function ($item) use ($stateIds) {
-                $item['state_id'] = $stateIds->get($item['state_id']);
+        $cities = $cities->map(function ($item) use ($stateIds) {
+            $item['state_id'] = $stateIds->get($item['state_id']);
 
-                return $item;
-            }
-        );
+            return $item;
+        });
 
 
         $existingCityIDs = Collection::make(DB::table($this->cities)->whereIn('code', $cityCodes)->pluck('id', 'code'));
-        $cities->map(
-            function ($item) use ($existingCityIDs) {
-                if ($existingCityIDs->has($item['code'])) {
-                    $item['id'] = $existingCityIDs->get($item['code']);
-                }
-
-                return $item;
+        $cities = $cities->map(function ($item) use ($existingCityIDs) {
+            if ($existingCityIDs->has($item['code'])) {
+                $item['id'] = $existingCityIDs->get($item['code']);
             }
-        );
 
-        $cities = $cities->groupBy(
-            function ($item) {
-                return array_has($item, 'id') ? 'update' : 'create';
-            }
-        );
+            return $item;
+        });
+
+        $cities = $cities->groupBy(function ($item) {
+            return array_has($item, 'id') ? 'update' : 'create';
+        });
 
         DB::transaction(
             function () use ($cities, $hash) {
