@@ -15,7 +15,7 @@ class UpdateCitiesCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'cities:update';
+    protected $signature = 'cities:update {--f|force : Force update}';
 
     /**
      * The console command description.
@@ -113,7 +113,7 @@ class UpdateCitiesCommand extends Command
         $cities = Collection::make($cities);
         $hash = md5($cities->toJson());
 
-        if ($hash === $this->hash) {
+        if (!$this->option('force') && $hash === $this->hash) {
             $this->line("No new city.");
 
             return false;
@@ -144,22 +144,22 @@ class UpdateCitiesCommand extends Command
             return array_has($item, 'id') ? 'update' : 'create';
         });
 
-        DB::transaction(
-            function () use ($cities, $hash) {
-                $create = Collection::make($cities->get('create'));
-                $update = Collection::make($cities->get('update'));
+        DB::transaction(function () use ($cities, $hash) {
+            $create = Collection::make($cities->get('create'));
+            $update = Collection::make($cities->get('update'));
 
-                foreach ($create->chunk(static::QUERY_LIMIT) as $entries) {
-                    DB::table($this->cities)->insert($entries->toArray());
-                }
-
-                foreach ($update->chunk(static::QUERY_LIMIT) as $entries) {
-                    DB::table($this->cities)->update($entries->toArray());
-                }
-                $this->line("{$create->count()} cities created. {$update->count()} cities updated.");
-                $this->files->put(storage_path(static::INSTALL_HISTORY), $hash);
+            foreach ($create->chunk(static::QUERY_LIMIT) as $entries) {
+                DB::table($this->cities)->insert($entries->toArray());
             }
-        );
+
+            foreach ($update as $entries) {
+                DB::table($this->cities)->where('id', $entries['id'])->update($entries);
+            }
+            $this->line("{$create->count()} cities created. {$update->count()} cities updated.");
+            $this->files->put(storage_path(static::INSTALL_HISTORY), $hash);
+        });
+
+        return true;
     }
 
     private function last(array $data)
