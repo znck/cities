@@ -71,8 +71,12 @@ class UpdateCitiesCommand extends Command
         $this->loader = new FileLoader($files, dirname(__DIR__).'/data');
 
         $config = $app->make('config');
-        $this->cities = $config->get('cities');
-        $this->states = $config->get('states');
+        $this->cities = $config->get('cities.cities');
+        $this->states = $config->get('cities.states');
+
+        if (!$this->files->isDirectory(dirname(storage_path(self::INSTALL_HISTORY)))) {
+            $this->files->makeDirectory(dirname(storage_path(self::INSTALL_HISTORY)), 0755, true);
+        }
 
         if ($this->files->exists(storage_path(self::INSTALL_HISTORY))) {
             $this->hash = $this->files->get(storage_path(self::INSTALL_HISTORY));
@@ -98,8 +102,8 @@ class UpdateCitiesCommand extends Command
                 $data = $this->loader->load($country, $state, 'en');
                 foreach ($data as $key => $name) {
                     $cities[] = [
-                        'name'     => $name,
-                        'code'     => "${country} ${state} ${key}",
+                        'name' => $name,
+                        'code' => "${country} ${state} ${key}",
                         'state_id' => "${country} ${state}",
                     ];
                 }
@@ -110,6 +114,8 @@ class UpdateCitiesCommand extends Command
         $hash = md5($cities->toJson());
 
         if ($hash === $this->hash) {
+            $this->line("No new city.");
+
             return false;
         }
 
@@ -150,12 +156,13 @@ class UpdateCitiesCommand extends Command
                 $update = Collection::make($cities->get('update'));
 
                 foreach ($create->chunk(static::QUERY_LIMIT) as $entries) {
-                    DB::table($this->cities)->insert($entries);
+                    DB::table($this->cities)->insert($entries->toArray());
                 }
 
                 foreach ($update->chunk(static::QUERY_LIMIT) as $entries) {
-                    DB::table($this->cities)->update($entries);
+                    DB::table($this->cities)->update($entries->toArray());
                 }
+                $this->line("{$create->count()} cities created. {$update->count()} cities updated.");
                 $this->files->put(storage_path(static::INSTALL_HISTORY), $hash);
             }
         );
