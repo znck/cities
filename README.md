@@ -122,5 +122,14 @@ Schema::create('cities', function (Blueprint $table) {
 
 ```
 
+
+## Development plan
+* [x] Create minimal working package.
+* [ ] Add migrations.
+* [ ] Integrate `znck/state` and `znck/countries`.
+* [ ] Add major cities of India.
+* [ ] Add translations in all 23 languages.
+* [ ] Add major cities of World.
+
 ## License
 Cities is licensed under [The MIT License (MIT)](LICENSE).
