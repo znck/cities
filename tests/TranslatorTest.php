@@ -1,4 +1,5 @@
-<?php namespace Znck\Tests\Cities;
+<?php
+namespace Znck\Tests\Cities;
 
 use Illuminate\Filesystem\Filesystem;
 use Znck\Cities\FileLoader;

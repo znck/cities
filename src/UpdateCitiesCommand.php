@@ -1,4 +1,5 @@
-<?php namespace Znck\Cities;
+<?php
+namespace Znck\Cities;
 
 use DB;
 use Illuminate\Console\Command;
@@ -9,6 +10,7 @@ use Illuminate\Support\Collection;
 class UpdateCitiesCommand extends Command
 {
     const QUERY_LIMIT = 100;
+
     const INSTALL_HISTORY = 'vendor/znck/cities/install.txt';
     /**
      * The name and signature of the console command.
@@ -57,7 +59,7 @@ class UpdateCitiesCommand extends Command
     /**
      * Create a new command instance.
      *
-     * @param Filesystem $files
+     * @param Filesystem  $files
      * @param Application $app
      */
     public function __construct(Filesystem $files, Application $app)
@@ -74,7 +76,7 @@ class UpdateCitiesCommand extends Command
         $this->cities = $config->get('cities.cities');
         $this->states = $config->get('cities.states');
 
-        if (!$this->files->isDirectory(dirname(storage_path(self::INSTALL_HISTORY)))) {
+        if (! $this->files->isDirectory(dirname(storage_path(self::INSTALL_HISTORY)))) {
             $this->files->makeDirectory(dirname(storage_path(self::INSTALL_HISTORY)), 0755, true);
         }
 
@@ -102,8 +104,8 @@ class UpdateCitiesCommand extends Command
                 $data = $this->loader->load($country, $state, 'en');
                 foreach ($data as $key => $name) {
                     $cities[] = [
-                        'name' => $name,
-                        'code' => "${country} ${state} ${key}",
+                        'name'     => $name,
+                        'code'     => "${country} ${state} ${key}",
                         'state_id' => "${country} ${state}",
                     ];
                 }
@@ -113,8 +115,8 @@ class UpdateCitiesCommand extends Command
         $cities = Collection::make($cities);
         $hash = md5($cities->toJson());
 
-        if (!$this->option('force') && $hash === $this->hash) {
-            $this->line("No new city.");
+        if (! $this->option('force') && $hash === $this->hash) {
+            $this->line('No new city.');
 
             return false;
         }
@@ -129,7 +131,6 @@ class UpdateCitiesCommand extends Command
 
             return $item;
         });
-
 
         $existingCityIDs = Collection::make(DB::table($this->cities)->whereIn('code', $cityCodes)->pluck('id', 'code'));
         $cities = $cities->map(function ($item) use ($existingCityIDs) {

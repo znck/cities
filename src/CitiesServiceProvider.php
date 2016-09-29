@@ -1,4 +1,5 @@
-<?php namespace Znck\Cities;
+<?php
+namespace Znck\Cities;
 
 use Illuminate\Support\ServiceProvider;
 

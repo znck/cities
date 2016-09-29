@@ -1,4 +1,5 @@
-<?php namespace Znck\Cities;
+<?php
+namespace Znck\Cities;
 
 use Illuminate\Support\Str;
 
@@ -23,7 +24,7 @@ class Translator
      * Translator constructor.
      *
      * @param FileLoader $loader
-     * @param string $locale
+     * @param string     $locale
      */
     public function __construct(FileLoader $loader, string $locale)
     {
@@ -54,7 +55,7 @@ class Translator
     }
 
     /**
-     * @param string $key
+     * @param string      $key
      * @param string|null $locale
      *
      * @return string
@@ -75,7 +76,7 @@ class Translator
     }
 
     /**
-     * @param string $key
+     * @param string      $key
      * @param string|null $locale
      *
      * @return string
