@@ -34,6 +34,7 @@
     "symfony/translation": "^3.0",
     "illuminate/console": "^5.2",
     "illuminate/database": "^5.2",
-    "illuminate/support": "^5.2"
+    "illuminate/support": "^5.2",
+    "znck/states": "^0.1.4"
   }
 }
